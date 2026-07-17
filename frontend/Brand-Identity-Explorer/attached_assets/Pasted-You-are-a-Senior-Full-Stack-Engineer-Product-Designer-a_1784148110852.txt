@@ -1,0 +1,580 @@
+You are a Senior Full-Stack Engineer, Product Designer, and Data Visualization Expert.
+
+Build a production-ready Admin Panel for my AI recommendation system called RecoIA.
+
+The Admin Panel must NOT look like a generic dashboard template.
+
+Instead, design it like a modern SaaS analytics platform inspired by:
+
+- Stripe Dashboard
+- Vercel
+- Linear
+- GitHub
+- Notion
+- Shopify Admin
+- Google Analytics
+
+Use:
+
+- React
+- TypeScript
+- TailwindCSS
+- shadcn/ui
+- React Router
+- Recharts
+- Framer Motion (subtle only)
+- Lucide Icons
+
+The dashboard should be fully responsive and use mock JSON data that can later be replaced with API calls.
+
+----------------------------------------------------
+
+ACCESS CONTROL
+
+Only users with
+
+role = "admin"
+
+can access
+
+/admin
+
+or any admin pages.
+
+If a normal user tries to access the admin panel,
+
+redirect them to
+
+403 Unauthorized
+
+or
+
+/login.
+
+Create protected routes.
+
+----------------------------------------------------
+
+Admin Sidebar
+
+Create a collapsible sidebar with icons.
+
+Menu:
+
+• Dashboard
+• Users
+• Products
+• Categories
+• Recommendations
+• AI Models
+• Analytics
+• Orders
+• Reports
+• Activity Logs
+• Settings
+
+Include a profile section at the bottom with
+
+Admin avatar
+
+Admin name
+
+Logout
+
+----------------------------------------------------
+
+Dashboard Home
+
+Display professional KPI cards.
+
+Total Users
+
+New Users
+
+Active Users
+
+Total Products
+
+Total Orders
+
+Revenue
+
+Recommendation Requests
+
+Recommendation Accuracy
+
+Average Session Time
+
+Average Rating
+
+Conversion Rate
+
+Click Through Rate
+
+Growth %
+
+Use beautiful but minimal cards.
+
+----------------------------------------------------
+
+Analytics
+
+Create meaningful charts.
+
+Daily Users
+
+Monthly Users
+
+Revenue
+
+Top Categories
+
+Most Viewed Products
+
+Most Purchased Products
+
+Recommendation Performance
+
+Recommendation Accuracy
+
+User Growth
+
+Sales Trends
+
+Use Recharts.
+
+No meaningless charts.
+
+----------------------------------------------------
+
+Recommendation Analytics
+
+This page is extremely important.
+
+Display
+
+Top Recommended Products
+
+Top Clicked Recommendations
+
+Ignored Recommendations
+
+Recommendation CTR
+
+Recommendation Conversion Rate
+
+Precision@10
+
+Recall@10
+
+MAP
+
+NDCG
+
+Model Comparison
+
+Recommendation Confidence
+
+Cold Start Statistics
+
+Recommendation Requests Per Minute
+
+Average Prediction Time
+
+Everything should look like a real ML dashboard.
+
+----------------------------------------------------
+
+AI Models
+
+Create a page showing
+
+Current Model
+
+Hybrid Pipeline
+
+Model Version
+
+Training Date
+
+Dataset
+
+Inference Time
+
+GPU Status
+
+Model Health
+
+Accuracy
+
+Status
+
+Example
+
+SBERT
+
+Active
+
+LightGCN
+
+Active
+
+LightFM
+
+Active
+
+Hybrid Ranker
+
+Active
+
+Allow
+
+Retrain Model
+
+Export Metrics
+
+Refresh Status
+
+----------------------------------------------------
+
+Users Page
+
+Professional table
+
+Search
+
+Pagination
+
+Filters
+
+Status
+
+Role
+
+Registration Date
+
+Email Verified
+
+Favorite Category
+
+Last Login
+
+Actions
+
+View
+
+Edit
+
+Disable
+
+Delete
+
+----------------------------------------------------
+
+User Details
+
+(Admin Only)
+
+Display
+
+Profile
+
+Registration Date
+
+Email Verification
+
+Recent Logins
+
+Devices
+
+Location (mock)
+
+Favorite Products
+
+Favorite Categories
+
+Browsing History
+
+Clicked Products
+
+Purchased Products
+
+Recommendation History
+
+Time Spent
+
+Wishlist
+
+Recent Searches
+
+Activity Timeline
+
+Charts showing user activity.
+
+This page must never be accessible by normal users.
+
+----------------------------------------------------
+
+Products
+
+Professional product management.
+
+Search
+
+Category Filter
+
+Brand Filter
+
+Stock
+
+Price
+
+Rating
+
+Popularity
+
+Actions
+
+View
+
+Edit
+
+Delete
+
+----------------------------------------------------
+
+Product Details
+
+Show
+
+Images
+
+Sales
+
+Views
+
+Recommendation Count
+
+CTR
+
+Revenue
+
+Customer Reviews
+
+Recommendation Score
+
+Inventory
+
+----------------------------------------------------
+
+Reports
+
+Allow exporting
+
+CSV
+
+Excel
+
+PDF
+
+for
+
+Users
+
+Products
+
+Recommendations
+
+Revenue
+
+----------------------------------------------------
+
+Logs
+
+Create a professional activity log.
+
+Admin Login
+
+Recommendation Generated
+
+Product Created
+
+User Registered
+
+Email Verified
+
+Password Reset
+
+Admin Actions
+
+Search
+
+Filter
+
+Pagination
+
+----------------------------------------------------
+
+Settings
+
+General Settings
+
+AI Settings
+
+Authentication
+
+Email Configuration
+
+Theme
+
+Notifications
+
+Database
+
+API Keys
+
+Recommendation Parameters
+
+----------------------------------------------------
+
+Notification Center
+
+Show
+
+New Users
+
+Failed Logins
+
+Model Errors
+
+Recommendation Alerts
+
+New Products
+
+System Messages
+
+----------------------------------------------------
+
+Design
+
+Professional spacing
+
+No unnecessary gradients
+
+No oversized buttons
+
+Modern typography
+
+Consistent colors
+
+Soft shadows
+
+Responsive layout
+
+Dark Mode
+
+Light Mode
+
+Micro animations only
+
+No AI-generated look.
+
+----------------------------------------------------
+
+Folder Structure
+
+src/
+
+admin/
+
+components/
+
+charts/
+
+layouts/
+
+pages/
+
+Dashboard/
+
+Users/
+
+UserDetails/
+
+Products/
+
+ProductDetails/
+
+Recommendations/
+
+Analytics/
+
+Reports/
+
+Logs/
+
+Settings/
+
+AIModels/
+
+hooks/
+
+services/
+
+types/
+
+utils/
+
+----------------------------------------------------
+
+Architecture
+
+Use
+
+Reusable components
+
+Feature-based structure
+
+Reusable tables
+
+Reusable charts
+
+Reusable cards
+
+Reusable modals
+
+React Query
+
+Clean Architecture
+
+TypeScript
+
+No duplicated code.
+
+----------------------------------------------------
+
+Future API Integration
+
+All data must come from services.
+
+Create
+
+adminService.ts
+
+userService.ts
+
+analyticsService.ts
+
+recommendationService.ts
+
+productService.ts
+
+Each service should currently return mock data but be ready for FastAPI integration later.
+
+----------------------------------------------------
+
+Final Goal
+
+The finished Admin Panel should look like a commercial AI analytics platform, not a student project.
+
+It should clearly demonstrate the power of RecoIA's recommendation engine and provide meaningful insights into users, products, recommendation quality, and AI model performance.

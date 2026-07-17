@@ -1,0 +1,600 @@
+# Role
+
+You are a Senior Frontend Engineer, Senior UI/UX Designer, and Product Designer with experience designing production web applications for Amazon, Stripe, Apple, Notion, Linear, Airbnb, and Shopify.
+
+Your goal is NOT to generate a generic AI-looking website.
+
+Your goal is to design a production-quality recommendation system that looks like it was built by an experienced product team.
+
+---
+
+# Project
+
+Build the frontend for an AI-powered E-commerce Recommendation System.
+
+The application will connect later to a FastAPI backend, so use mock JSON data for now.
+
+Framework:
+
+* React
+* TypeScript
+* Vite
+* TailwindCSS
+* shadcn/ui
+* React Router
+* TanStack Query
+* Framer Motion (subtle animations only)
+* Recharts for analytics
+* React Hook Form
+* Lucide Icons
+
+The architecture must be clean, modular, scalable, and production-ready.
+
+---
+
+# Design Philosophy
+
+Avoid every common AI-generated design pattern.
+
+DO NOT create:
+
+* Giant gradients
+* Huge rounded buttons
+* Neon colors
+* Glassmorphism everywhere
+* Random animations
+* Oversized cards
+* Uneven spacing
+* Generic dashboards
+* Stock illustrations
+
+Instead create a clean premium interface inspired by:
+
+* Apple
+* Linear
+* Stripe Dashboard
+* Shopify Admin
+* Notion
+* GitHub
+
+Use:
+
+* Professional typography
+* 8-point spacing system
+* Neutral background
+* One primary accent color
+* Subtle shadows
+* Consistent border radius
+* High accessibility
+* Responsive layouts
+* Pixel-perfect alignment
+
+The UI should immediately look like a real SaaS application.
+
+---
+
+# Color Palette
+
+Primary:
+#2563EB
+
+Secondary:
+#1E293B
+
+Background:
+#F8FAFC
+
+Cards:
+White
+
+Text:
+Dark Gray
+
+Success:
+Green
+
+Warning:
+Amber
+
+Danger:
+Red
+
+Use colors sparingly.
+
+---
+
+# Authentication
+
+Create beautiful pages for:
+
+Login
+
+Register
+
+Forgot Password
+
+Reset Password
+
+Email Verification
+
+Verification Success
+
+Verification Failed
+
+Loading Authentication
+
+Use modern forms with proper validation.
+
+---
+
+# Main Pages
+
+## Landing Page
+
+Modern hero section
+
+Professional navbar
+
+Features
+
+How AI Recommendations Work
+
+Testimonials
+
+Footer
+
+Call-to-action
+
+No excessive animations.
+
+---
+
+## Home Page
+
+Display:
+
+Recommended For You
+
+Trending Products
+
+Recently Viewed
+
+Categories
+
+New Arrivals
+
+Popular Brands
+
+Flash Deals
+
+Personalized AI Recommendations
+
+Each section must have proper spacing and hierarchy.
+
+---
+
+## Product Details
+
+Large product gallery
+
+Price
+
+Discount
+
+Reviews
+
+Ratings
+
+Seller
+
+Specifications
+
+Description
+
+Recommended Similar Products
+
+Customers Also Bought
+
+AI Recommendation Explanation
+
+Favorite Button
+
+Share Button
+
+Add To Cart
+
+---
+
+## Favorites Page
+
+Users can:
+
+View favorite products
+
+Search favorites
+
+Filter favorites
+
+Remove favorites
+
+Sort favorites
+
+Grid/List view
+
+Show empty state if there are no favorites.
+
+---
+
+## Search Page
+
+Search bar
+
+Advanced filters
+
+Price
+
+Brand
+
+Category
+
+Rating
+
+Sorting
+
+Infinite scrolling
+
+Modern search experience.
+
+---
+
+## User Profile
+
+Avatar
+
+Personal Information
+
+Order History
+
+Favorite Categories
+
+Settings
+
+Security
+
+Notifications
+
+Recommendation Preferences
+
+---
+
+## Recommendation Explanation
+
+Each recommendation should explain:
+
+"Recommended because you frequently purchase electronics."
+
+"Recommended because similar users bought this."
+
+"Recommended based on your browsing history."
+
+Display confidence percentage.
+
+---
+
+# Admin Dashboard
+
+The admin interface should look like a professional business intelligence platform.
+
+NOT a generic admin template.
+
+The dashboard should tell a story using meaningful analytics.
+
+---
+
+## Dashboard Overview
+
+Cards
+
+Total Users
+
+Active Users
+
+New Users
+
+Total Products
+
+Revenue
+
+Orders
+
+Recommendation Click Rate
+
+Recommendation Conversion Rate
+
+Average Rating
+
+Average Session Time
+
+---
+
+## Recommendation Analytics
+
+Recommendation Accuracy
+
+Precision@10
+
+Recall@10
+
+CTR
+
+Conversion Rate
+
+Top Recommended Categories
+
+Most Recommended Products
+
+Most Ignored Products
+
+Most Successful Recommendation Model
+
+Recommendation Confidence Distribution
+
+Model Comparison
+
+---
+
+## User Analytics
+
+Daily Active Users
+
+Monthly Active Users
+
+Returning Users
+
+New Users
+
+Average Session Duration
+
+Top Countries
+
+Top Categories
+
+Most Active Users
+
+Customer Segmentation
+
+---
+
+## User History (Admin Only)
+
+Admin can inspect a user profile.
+
+Display:
+
+Login History
+
+Viewed Products
+
+Clicked Products
+
+Purchased Products
+
+Favorite Products
+
+Search History
+
+Recommendation History
+
+Time Spent
+
+Preferred Categories
+
+Activity Timeline
+
+Recent Sessions
+
+This page is NOT visible to normal users.
+
+---
+
+## Product Analytics
+
+Best Selling Products
+
+Worst Selling Products
+
+Low Stock
+
+Highest Rated Products
+
+Most Reviewed Products
+
+Trending Products
+
+Product Performance
+
+Inventory Analytics
+
+---
+
+## AI Dashboard
+
+Current Recommendation Model
+
+Model Status
+
+Training Date
+
+Inference Time
+
+Recommendation Requests
+
+Average Prediction Time
+
+Cold Start Statistics
+
+Model Performance Metrics
+
+Recent Predictions
+
+Model Health
+
+---
+
+## Charts
+
+Use Recharts.
+
+Include:
+
+Line Charts
+
+Area Charts
+
+Bar Charts
+
+Pie Charts
+
+Heatmaps
+
+Trend Charts
+
+KPI Cards
+
+Everything should use realistic sample data.
+
+No meaningless charts.
+
+---
+
+## Admin Navigation
+
+Dashboard
+
+Users
+
+Products
+
+Recommendations
+
+Analytics
+
+Orders
+
+Categories
+
+Reports
+
+Settings
+
+AI Models
+
+Logs
+
+---
+
+# Components
+
+Create reusable components.
+
+Buttons
+
+Cards
+
+Forms
+
+Dialogs
+
+Tables
+
+Charts
+
+Product Cards
+
+Recommendation Cards
+
+Search Components
+
+Navbar
+
+Sidebar
+
+Footer
+
+Pagination
+
+Breadcrumbs
+
+Notifications
+
+Loading Skeletons
+
+Error States
+
+Empty States
+
+Everything must be reusable.
+
+---
+
+# Animations
+
+Only subtle animations.
+
+Hover elevation
+
+Fade in
+
+Smooth page transitions
+
+Micro interactions
+
+No flashy animations.
+
+---
+
+# Responsiveness
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+Everything should be fully responsive.
+
+---
+
+# Code Quality
+
+Use:
+
+Clean Architecture
+
+Feature-based folders
+
+Reusable hooks
+
+Reusable components
+
+Strong typing
+
+No duplicated code
+
+No inline styles
+
+No hardcoded values
+
+Meaningful comments
+
+Scalable folder structure
+
+Production-ready code
+
+---
+
+# Final Goal
+
+The final result should look like a real AI-powered recommendation platform that could realistically be presented as a startup product or a graduation project. Every screen, chart, and interaction should have a clear purpose and support the recommendation workflow. The interface should feel polished, trustworthy, and intentionally designed—not like a generic template or AI-generated "vibe coding."

@@ -1,0 +1,275 @@
+You are a Senior React Architect and Frontend Engineer.
+
+Refactor the authentication system of my project "RecoIA" into a professional production-ready architecture.
+
+The current implementation displays Login, Register, Forgot Password, Email Verification, Reset Password, and Success pages all on one page.
+
+This is incorrect.
+
+I want each authentication screen to have its own independent route and page.
+
+Use React Router.
+
+The routing structure should be:
+
+/login
+/register
+/forgot-password
+/reset-password/:token
+/verify-email
+/verify-email-success
+/verify-email-failed
+
+Each page must have its own folder and component.
+
+Example:
+
+src/
+ ├── pages/
+ │      Login/
+ │           index.tsx
+ │      Register/
+ │           index.tsx
+ │      ForgotPassword/
+ │           index.tsx
+ │      ResetPassword/
+ │           index.tsx
+ │      VerifyEmail/
+ │           index.tsx
+ │      VerifySuccess/
+ │           index.tsx
+ │      VerifyFailed/
+ │           index.tsx
+
+Create reusable authentication components inside
+
+components/auth/
+
+for
+
+- AuthLayout
+- AuthCard
+- AuthInput
+- AuthButton
+- PasswordInput
+- OTPInput
+- EmailIllustration
+
+Do not duplicate code.
+
+--------------------------------------------
+
+Authentication Flow
+
+1.
+
+User opens
+
+/login
+
+↓
+
+Login page only.
+
+--------------------------------------------
+
+2.
+
+If user clicks
+
+Create Account
+
+↓
+
+Go to
+
+/register
+
+--------------------------------------------
+
+3.
+
+After submitting the registration form
+
+↓
+
+Send verification email
+
+↓
+
+Navigate automatically to
+
+/verify-email
+
+The page should display
+
+"Check your email"
+
+and allow entering the verification code.
+
+--------------------------------------------
+
+4.
+
+If verification succeeds
+
+DO NOT redirect to the dashboard.
+
+Instead
+
+Automatically redirect to
+
+/login
+
+after showing a success message for 2–3 seconds.
+
+Display:
+
+✔ Email verified successfully.
+
+Your account has been activated.
+
+Redirecting to Login...
+
+Then automatically navigate to
+
+/login
+
+using React Router.
+
+The dashboard must NEVER open after verification.
+
+--------------------------------------------
+
+5.
+
+If verification fails
+
+↓
+
+Navigate to
+
+/verify-email-failed
+
+Allow the user to
+
+- resend verification email
+- try again
+
+--------------------------------------------
+
+6.
+
+Forgot password flow
+
+/login
+
+↓
+
+Forgot Password
+
+↓
+
+/forgot-password
+
+↓
+
+User enters email
+
+↓
+
+Reset email sent
+
+↓
+
+User clicks email link
+
+↓
+
+/reset-password/:token
+
+↓
+
+Create new password
+
+↓
+
+Success
+
+↓
+
+Automatically redirect to
+
+/login
+
+--------------------------------------------
+
+Dashboard Protection
+
+The dashboard is ONLY for administrators.
+
+Normal users must NEVER access
+
+/dashboard
+
+or
+
+/admin
+
+unless their role is "admin".
+
+Implement protected routes.
+
+Example
+
+if(role==="admin"){
+
+allow("/admin")
+
+}else{
+
+redirect("/login")
+
+}
+
+or redirect to a 403 Unauthorized page.
+
+--------------------------------------------
+
+Navigation
+
+The authentication pages should NOT show
+
+Navbar
+
+Sidebar
+
+Footer
+
+Dashboard menu
+
+Only the authentication layout.
+
+--------------------------------------------
+
+Code Quality
+
+Use
+
+React Router v7
+
+TypeScript
+
+Reusable components
+
+Clean Architecture
+
+Feature-based folders
+
+No duplicated code
+
+No hardcoded navigation
+
+No unnecessary state
+
+Everything should be production-ready.
