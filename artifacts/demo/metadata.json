@@ -1,0 +1,6 @@
+{
+  "version": "demo",
+  "source": "processed Amazon Reviews 2023 catalog",
+  "serving_mode": "popularity fallback",
+  "purpose": "local frontend and API smoke testing"
+}

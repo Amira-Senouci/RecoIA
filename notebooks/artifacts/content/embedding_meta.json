@@ -1,0 +1,23 @@
+{
+  "notebook": "04_Content_Based_BGE",
+  "embedding_model": "BAAI/bge-base-en-v1.5",
+  "dim": 768,
+  "n_items": 3700,
+  "normalized": true,
+  "files": [
+    "content_model.pkl",
+    "embedding_meta.json",
+    "item_embeddings.items.npy",
+    "item_embeddings.npy"
+  ],
+  "results": [
+    "results/content_vs_baselines.csv",
+    "results/cold_item_evaluation.csv"
+  ],
+  "eval_protocol": {
+    "split": "temporal leave-last-out",
+    "K": 10,
+    "seed": 42,
+    "identical_to": "03_Baseline_Evaluation"
+  }
+}

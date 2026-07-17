@@ -1,0 +1,14 @@
+{
+  "categories": [
+    "All_Beauty",
+    "Health_and_Personal_Care",
+    "Handmade_Products"
+  ],
+  "used_core": 3,
+  "max_interactions": 1000000,
+  "interactions": 25023,
+  "users": 3744,
+  "items": 3700,
+  "density": 0.0018063496188496187,
+  "missing_image_pct": 0.0
+}

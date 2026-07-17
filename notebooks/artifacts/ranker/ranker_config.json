@@ -1,0 +1,27 @@
+{
+  "notebook": "07_Ranking_LightGBM",
+  "objective": "lambdarank (NDCG@10)",
+  "features": [
+    "rr_item_item",
+    "rr_sasrec",
+    "rr_content",
+    "rr_als",
+    "rr_popularity",
+    "n_legs",
+    "log_pop",
+    "mean_rating",
+    "log_hist_len"
+  ],
+  "num_rounds": 300,
+  "candidate_depth_per_leg": 50,
+  "training_labels": "inner leave-last-out validation targets",
+  "results": [
+    "results/ranker_vs_all.csv"
+  ],
+  "eval_protocol": {
+    "split": "temporal leave-last-out",
+    "K": 10,
+    "seed": 42,
+    "identical_to": "03_Baseline_Evaluation"
+  }
+}

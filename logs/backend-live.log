@@ -1,0 +1,6 @@
+INFO:     127.0.0.1:58246 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58256 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58259 - "GET /api/recommendations?limit=3 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60734 - "GET /api/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60736 - "GET /api/catalog?limit=12 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60735 - "GET /api/recommendations?limit=12 HTTP/1.1" 200 OK

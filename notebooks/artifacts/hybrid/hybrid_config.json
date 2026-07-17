@@ -1,0 +1,40 @@
+{
+  "notebook": "06_Hybrid_RRF",
+  "fusion": "weighted reciprocal rank fusion",
+  "rrf_k": 60,
+  "depth": 50,
+  "beta": 0.5,
+  "weights": {
+    "item_item": 0.240534,
+    "sasrec": 0.253654,
+    "content": 0.245976,
+    "als": 0.126374,
+    "popularity": 0.133463
+  },
+  "leg_strength_val_ndcg10": {
+    "item_item": 0.035178,
+    "sasrec": 0.03912,
+    "content": 0.036787,
+    "als": 0.00971,
+    "popularity": 0.01083
+  },
+  "beta_curve_val_ndcg10": {
+    "0.0": 0.046141,
+    "0.5": 0.052368,
+    "1.0": 0.051912,
+    "2.0": 0.050164,
+    "4.0": 0.048157,
+    "8.0": 0.047842
+  },
+  "results": [
+    "results/hybrid_vs_all.csv",
+    "results/hybrid_cold_evaluation.csv"
+  ],
+  "eval_protocol": {
+    "split": "temporal leave-last-out",
+    "K": 10,
+    "seed": 42,
+    "identical_to": "03_Baseline_Evaluation",
+    "weight_tuning": "inner leave-last-out on training data"
+  }
+}

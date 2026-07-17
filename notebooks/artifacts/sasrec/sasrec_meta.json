@@ -1,0 +1,27 @@
+{
+  "notebook": "05_SASRec_Sequential",
+  "architecture": {
+    "dim": 64,
+    "blocks": 2,
+    "heads": 2,
+    "max_len": 30,
+    "dropout": 0.3,
+    "epochs": 60,
+    "objective": "full-softmax CE"
+  },
+  "n_items": 3663,
+  "final_train_loss": 3.9791,
+  "files": [
+    "sasrec_meta.json",
+    "sasrec_model.pkl"
+  ],
+  "results": [
+    "results/sequential_vs_all.csv"
+  ],
+  "eval_protocol": {
+    "split": "temporal leave-last-out",
+    "K": 10,
+    "seed": 42,
+    "identical_to": "03_Baseline_Evaluation"
+  }
+}

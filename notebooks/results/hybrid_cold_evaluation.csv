@@ -1,0 +1,4 @@
+model,cold HR@10,cold NDCG@10,n
+interaction-trained legs (by construction),0.0,0.0,150
+content_bge alone,0.07333333333333333,0.05612731126609946,150
+hybrid_rrf_weighted,0.02,0.006213064994902925,150

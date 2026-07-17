@@ -1,0 +1,10 @@
+{
+  "version": "demo",
+  "files": [
+    {
+      "path": "metadata.json",
+      "sha256": "ce772e9223415190e902ecc27793384231760aa67cb03c92e28d1ef2e00d8f50",
+      "notebook": "08_Serving_and_Frontend_Integration"
+    }
+  ]
+}

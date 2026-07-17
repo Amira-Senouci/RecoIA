@@ -1,0 +1,21 @@
+{
+  "notebook": "03_Baseline_Evaluation",
+  "artifacts": [
+    "als_model.pkl",
+    "item_item_model.pkl",
+    "manifest.json",
+    "popularity_model.pkl",
+    "retrievers.pkl"
+  ],
+  "metrics_file": "results\\baseline_metrics.csv",
+  "figures": [
+    "03_baseline_comparison.png",
+    "03_data_overview.png"
+  ],
+  "eval_protocol": {
+    "split": "temporal leave-last-out",
+    "K": 10,
+    "test_sample": 3594,
+    "seed": 42
+  }
+}

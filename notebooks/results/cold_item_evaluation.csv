@@ -1,0 +1,3 @@
+model,cold HR@10,cold NDCG@10,cold users evaluated
+popularity / item_item / als (by construction),0.0,0.0,150
+content_bge,0.07333333333333333,0.05612731126609946,150
