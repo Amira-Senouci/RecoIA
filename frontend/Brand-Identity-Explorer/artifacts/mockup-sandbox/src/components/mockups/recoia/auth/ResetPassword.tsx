@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Eye, EyeOff, Check, Info } from 'lucide-react';
+import { Eye, EyeOff, Info } from 'lucide-react';
+import { api, ApiError } from '@/lib/api';
 
 function RecoIALogo() {
   return (
@@ -19,14 +21,42 @@ function RecoIALogo() {
 }
 
 export function ResetPassword() {
+  const { token } = useParams<{ token: string }>();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSubmit(event: React.FormEvent): Promise<void> {
+    event.preventDefault();
+    setError(null);
+    if (!token) {
+      setError("This reset link is missing its token.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      await api.resetPassword(token, password);
+      navigate("/login", { replace: true });
+    } catch (cause) {
+      setError(cause instanceof ApiError ? cause.message : "Unable to reset your password.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 font-sans">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8 md:p-10">
         <RecoIALogo />
-        
+
         <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 mb-8 flex items-start gap-3">
           <Info className="w-5 h-5 text-blue-500 shrink-0 mt-0.5" />
           <p className="text-sm text-blue-800 font-medium">This reset link is valid for 15 minutes</p>
@@ -37,19 +67,26 @@ export function ResetPassword() {
           <p className="text-slate-500 mt-2 text-sm">Your new password must be different from previous passwords</p>
         </div>
 
-        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          {error && (
+            <p className="rounded-lg bg-red-50 border border-red-100 px-3 py-2 text-sm font-medium text-red-600">{error}</p>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="password" className="font-medium text-slate-900">New Password</Label>
             <div className="relative">
-              <Input 
-                id="password" 
-                type={showPassword ? "text" : "password"} 
-                placeholder="Enter new password" 
-                className="h-11 pr-10" 
-                defaultValue="NewP@ssw0rd!"
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter new password"
+                className="h-11 pr-10"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -61,15 +98,17 @@ export function ResetPassword() {
           <div className="space-y-2">
             <Label htmlFor="confirm-password" className="font-medium text-slate-900">Confirm Password</Label>
             <div className="relative">
-              <Input 
-                id="confirm-password" 
-                type={showConfirmPassword ? "text" : "password"} 
-                placeholder="Confirm new password" 
-                className="h-11 pr-10" 
-                defaultValue="NewP@ssw0rd!"
+              <Input
+                id="confirm-password"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm new password"
+                className="h-11 pr-10"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
@@ -78,29 +117,15 @@ export function ResetPassword() {
             </div>
           </div>
 
-          {/* Password Requirements */}
-          <div className="space-y-3 pt-1 bg-slate-50 rounded-lg p-4 border border-slate-100">
-            <div className="flex items-center text-sm font-medium text-slate-700">
-              <Check className="w-4 h-4 text-green-500 mr-2 shrink-0" strokeWidth={3} />
-              At least 8 characters
-            </div>
-            <div className="flex items-center text-sm font-medium text-slate-700">
-              <Check className="w-4 h-4 text-green-500 mr-2 shrink-0" strokeWidth={3} />
-              One uppercase letter
-            </div>
-            <div className="flex items-center text-sm font-medium text-slate-700">
-              <Check className="w-4 h-4 text-green-500 mr-2 shrink-0" strokeWidth={3} />
-              One number
-            </div>
-            <div className="flex items-center text-sm font-medium text-slate-700">
-              <Check className="w-4 h-4 text-green-500 mr-2 shrink-0" strokeWidth={3} />
-              One special character
-            </div>
-          </div>
+          <p className="text-xs text-slate-500">Must be at least 8 characters.</p>
 
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg h-12 shadow-sm mt-4">
-            Update Password
+          <Button type="submit" disabled={submitting} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg h-12 shadow-sm mt-4">
+            {submitting ? "Updating…" : "Update Password"}
           </Button>
+
+          <p className="text-center text-sm text-slate-600 pt-2">
+            <Link to="/login" className="font-semibold text-slate-900 hover:text-blue-600">Back to Sign In</Link>
+          </p>
         </form>
       </div>
     </div>

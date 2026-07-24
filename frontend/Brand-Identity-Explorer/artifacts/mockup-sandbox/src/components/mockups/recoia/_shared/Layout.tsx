@@ -1,8 +1,9 @@
-import React from "react";
-import { Search, Bell, ShoppingCart, User, Menu, Home, Compass, Sparkles, Heart, Package, Settings } from "lucide-react";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Search, Bell, User, Menu, Home, Heart, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { useAuth } from "@/lib/auth-context";
 
 export function Logo() {
   return (
@@ -18,75 +19,88 @@ export function Logo() {
 }
 
 export function Navbar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [query, setQuery] = useState("");
+
+  function handleSearchSubmit(event: React.FormEvent): void {
+    event.preventDefault();
+    navigate(query.trim() ? `/search?q=${encodeURIComponent(query.trim())}` : "/search");
+  }
+
   return (
     <header className="h-16 bg-white border-b border-slate-200 fixed top-0 w-full z-30 flex items-center justify-between px-4 lg:px-6 shadow-sm">
       <div className="flex items-center gap-4 lg:hidden">
         <Button variant="ghost" size="icon">
           <Menu className="h-5 w-5" />
         </Button>
-        <Logo />
-      </div>
-      
-      <div className="hidden lg:flex items-center w-[240px]">
-        <Logo />
+        <Link to="/home"><Logo /></Link>
       </div>
 
-      <div className="flex-1 max-w-2xl px-6">
+      <div className="hidden lg:flex items-center w-[240px]">
+        <Link to="/home"><Logo /></Link>
+      </div>
+
+      <form className="flex-1 max-w-2xl px-6" onSubmit={handleSearchSubmit}>
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
-          <Input 
-            placeholder="Search products, brands, and categories..." 
+          <Input
+            placeholder="Search products, brands, and categories..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
             className="w-full bg-slate-50 border-slate-200 pl-9 pr-4 rounded-full focus-visible:ring-blue-600 shadow-none h-10"
           />
         </div>
-      </div>
+      </form>
 
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="relative">
-          <ShoppingCart className="h-5 w-5 text-slate-600" />
-          <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-blue-600 border-none">3</Badge>
-        </Button>
+      <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5 text-slate-600" />
-          <div className="absolute top-1.5 right-1.5 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white"></div>
         </Button>
-        <div className="w-9 h-9 rounded-full bg-slate-200 ml-2 border border-slate-200 overflow-hidden shrink-0 cursor-pointer">
-          <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="Avatar" className="w-full h-full object-cover" />
-        </div>
+        <Link to="/profile" className="flex items-center gap-2 hover:opacity-80">
+          <span className="hidden sm:block text-sm font-medium text-slate-600">{user?.email}</span>
+          <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm shrink-0">
+            {(user?.email ?? "?").charAt(0).toUpperCase()}
+          </div>
+        </Link>
+        <Button variant="ghost" size="icon" onClick={logout} aria-label="Log out">
+          <LogOut className="h-5 w-5 text-slate-600" />
+        </Button>
       </div>
     </header>
   );
 }
 
 export function Sidebar() {
+  const location = useLocation();
   const links = [
-    { name: "Home", icon: Home, active: true },
-    { name: "Browse", icon: Compass },
-    { name: "Recommendations", icon: Sparkles },
-    { name: "Favorites", icon: Heart },
-    { name: "Orders", icon: Package },
-    { name: "Profile", icon: User },
-    { name: "Settings", icon: Settings },
+    { name: "Home", icon: Home, to: "/home" },
+    { name: "Search", icon: Search, to: "/search" },
+    { name: "Favorites", icon: Heart, to: "/favorites" },
+    { name: "Profile", icon: User, to: "/profile" },
   ];
 
   return (
     <aside className="w-[240px] hidden lg:flex flex-col border-r border-slate-200 bg-white fixed left-0 top-16 h-[calc(100vh-64px)] z-20">
       <div className="py-6 px-4 flex-1 overflow-y-auto">
         <nav className="space-y-1.5">
-          {links.map((link) => (
-            <a 
-              key={link.name} 
-              href="#" 
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                link.active 
-                  ? "bg-blue-50 text-blue-700" 
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
-              }`}
-            >
-              <link.icon className={`h-4.5 w-4.5 ${link.active ? "text-blue-600" : "text-slate-400"}`} />
-              {link.name}
-            </a>
-          ))}
+          {links.map((link) => {
+            const active = location.pathname === link.to;
+            return (
+              <Link
+                key={link.name}
+                to={link.to}
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  active
+                    ? "bg-blue-50 text-blue-700"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                }`}
+              >
+                <link.icon className={`h-4.5 w-4.5 ${active ? "text-blue-600" : "text-slate-400"}`} />
+                {link.name}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </aside>

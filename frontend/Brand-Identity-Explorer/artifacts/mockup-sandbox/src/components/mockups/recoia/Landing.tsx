@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Brain, Zap, Target, Network, Layers, Sparkles, Check } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -23,8 +24,12 @@ export function Landing() {
             <a href="#" className="hover:text-blue-600 transition-colors">Blog</a>
           </nav>
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="hidden md:inline-flex text-slate-600 hover:text-slate-900">Log In</Button>
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 font-medium">Get Started</Button>
+            <Link to="/login">
+              <Button variant="ghost" className="hidden md:inline-flex text-slate-600 hover:text-slate-900">Log In</Button>
+            </Link>
+            <Link to="/register">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 font-medium">Get Started</Button>
+            </Link>
           </div>
         </div>
       </header>
@@ -43,9 +48,11 @@ export function Landing() {
             RecoIA uses advanced artificial intelligence to understand your preferences and deliver highly personalized product recommendations based on your interests, browsing behavior, and interactions.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8 h-12 text-base font-medium">
-              Get Started
-            </Button>
+            <Link to="/register" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white rounded-full px-8 h-12 text-base font-medium">
+                Get Started
+              </Button>
+            </Link>
             <Button size="lg" variant="outline" className="w-full sm:w-auto rounded-full px-8 h-12 text-base font-medium border-slate-200 text-slate-700 hover:bg-slate-50">
               Learn More
             </Button>

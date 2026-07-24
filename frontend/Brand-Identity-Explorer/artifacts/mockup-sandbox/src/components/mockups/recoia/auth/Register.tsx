@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Eye, EyeOff, Github } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
+import { ApiError } from '@/lib/api';
 
 function RecoIALogo() {
   return (
@@ -22,69 +24,89 @@ function RecoIALogo() {
 export function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const { register } = useAuth();
+
+  async function handleSubmit(event: React.FormEvent): Promise<void> {
+    event.preventDefault();
+    setError(null);
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      await register(email, password);
+      navigate("/verify-email", { state: { email } });
+    } catch (cause) {
+      setError(cause instanceof ApiError ? cause.message : "Unable to create your account.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 font-sans py-12">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8 md:p-10">
         <RecoIALogo />
-        
+
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Create your account</h1>
           <p className="text-slate-500 mt-2 text-sm">Join RecoIA to get AI-powered recommendations</p>
         </div>
 
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <div className="space-y-2">
-            <Label htmlFor="name" className="font-medium text-slate-900">Full Name</Label>
-            <Input id="name" type="text" placeholder="Alex Johnson" className="h-11" />
-          </div>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          {error && (
+            <p className="rounded-lg bg-red-50 border border-red-100 px-3 py-2 text-sm font-medium text-red-600">{error}</p>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="email" className="font-medium text-slate-900">Email address</Label>
-            <Input id="email" type="email" placeholder="alex@example.com" className="h-11" />
+            <Input id="email" type="email" placeholder="alex@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="h-11" />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="password" className="font-medium text-slate-900">Password</Label>
             <div className="relative">
-              <Input 
-                id="password" 
-                type={showPassword ? "text" : "password"} 
-                placeholder="Create a strong password" 
-                className="h-11 pr-10" 
-                defaultValue="StrongP@ssw0rd!"
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Create a strong password (min. 8 characters)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={8}
+                className="h-11 pr-10"
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
-            
-            {/* Password strength indicator (Strong state) */}
-            <div className="flex gap-1.5 mt-2">
-              <div className="h-1.5 w-1/4 bg-green-500 rounded-full"></div>
-              <div className="h-1.5 w-1/4 bg-green-500 rounded-full"></div>
-              <div className="h-1.5 w-1/4 bg-green-500 rounded-full"></div>
-              <div className="h-1.5 w-1/4 bg-green-500 rounded-full"></div>
-            </div>
-            <p className="text-xs text-green-600 font-medium mt-1">Strong password</p>
           </div>
 
           <div className="space-y-2 pb-2">
             <Label htmlFor="confirm-password" className="font-medium text-slate-900">Confirm Password</Label>
             <div className="relative">
-              <Input 
-                id="confirm-password" 
-                type={showConfirmPassword ? "text" : "password"} 
-                placeholder="Confirm your password" 
-                className="h-11 pr-10" 
-                defaultValue="StrongP@ssw0rd!"
+              <Input
+                id="confirm-password"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="h-11 pr-10"
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
@@ -93,15 +115,8 @@ export function Register() {
             </div>
           </div>
 
-          <div className="flex items-start space-x-2 py-2">
-            <Checkbox id="terms" className="border-slate-300 text-blue-600 rounded mt-0.5" />
-            <label htmlFor="terms" className="text-sm font-medium leading-tight text-slate-600 cursor-pointer">
-              I agree to the <a href="#" className="text-slate-900 font-semibold hover:text-blue-600">Terms of Service</a> and <a href="#" className="text-slate-900 font-semibold hover:text-blue-600">Privacy Policy</a>
-            </label>
-          </div>
-
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg h-12 shadow-sm mt-2">
-            Create Account
+          <Button type="submit" disabled={submitting} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg h-12 shadow-sm mt-2">
+            {submitting ? "Creating account…" : "Create Account"}
           </Button>
         </form>
 
@@ -131,7 +146,7 @@ export function Register() {
         </div>
 
         <p className="text-center text-sm text-slate-600 mt-8">
-          Already have an account? <a href="#" className="font-semibold text-slate-900 hover:text-blue-600">Sign in</a>
+          Already have an account? <Link to="/login" className="font-semibold text-slate-900 hover:text-blue-600">Sign in</Link>
         </p>
       </div>
     </div>

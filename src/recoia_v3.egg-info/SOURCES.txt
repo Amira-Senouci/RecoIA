@@ -12,9 +12,16 @@ src/recsys/data/download.py
 src/recsys/data/preprocess.py
 src/recsys/models/__init__.py
 src/recsys/models/als.py
+src/recsys/models/content.py
+src/recsys/models/fusion.py
+src/recsys/models/hybrid.py
 src/recsys/models/item_item.py
 src/recsys/models/popularity.py
+src/recsys/models/ranker.py
 src/recsys/models/retrievers.py
+src/recsys/models/sasrec.py
+src/recsys/models/two_tower.py
 src/recsys/serving/__init__.py
 src/recsys/serving/artifacts.py
+src/recsys/serving/catalog.py
 src/recsys/serving/recommender.py

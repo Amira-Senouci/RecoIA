@@ -5,7 +5,6 @@ from dataclasses import dataclass
 import pandas as pd
 
 from .als import ALSModel, train_als_model
-from .hybrid import weighted_rrf
 from .item_item import ItemItemModel, train_item_item_model
 from .popularity import PopularityModel, train_popularity_model
 
@@ -24,11 +23,10 @@ class BaselineRetrievers:
         depth: int,
     ) -> list[list[str]]:
         """Ranked lists from each retrieval leg, personalized legs first."""
-        excluded_items = seen_items | set(seed_items)
         return [
-            self.item_item.recommend(seed_items=seed_items, seen_items=excluded_items, limit=depth),
-            self.als.recommend(user_id=user_id, seen_items=excluded_items, limit=depth),
-            self.popularity.recommend(seen_items=excluded_items, limit=depth),
+            self.item_item.recommend(seed_items=seed_items, limit=depth),
+            self.als.recommend(user_id=user_id, seen_items=seen_items, limit=depth),
+            self.popularity.recommend(seen_items=seen_items, limit=depth),
         ]
 
     def candidate_union(
@@ -52,7 +50,7 @@ class BaselineRetrievers:
         and the cap defaults to room for all legs.
         """
         deduplicated: list[str] = []
-        seen_or_added = set(seen_items) | set(seed_items)
+        seen_or_added = set(seen_items)
         # round-robin across legs so no single leg can crowd out the others
         rankings = self._leg_rankings(user_id, seed_items, seen_items, per_leg)
         for tier in range(per_leg):
@@ -84,15 +82,7 @@ class BaselineRetrievers:
         (item_item, als, popularity) and default to the empirically
         measured strength of each leg on this dataset.
         """
-        leg_names = ("item_item", "als", "popularity")
-        if len(weights) != len(leg_names):
-            raise ValueError(f"Expected {len(leg_names)} retrieval weights, got {len(weights)}")
-        rankings = self._leg_rankings(user_id, seed_items, seen_items, depth)
-        return weighted_rrf(
-            dict(zip(leg_names, rankings, strict=True)),
-            dict(zip(leg_names, weights, strict=True)),
-            limit=limit,
-        )
+       
 
 
 def train_baseline_retrievers(interactions: pd.DataFrame) -> BaselineRetrievers:

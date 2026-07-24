@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2 } from 'lucide-react';
 
@@ -17,21 +18,27 @@ function RecoIALogo() {
 }
 
 export function VerifySuccess() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => navigate("/login", { replace: true }), 2500);
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 font-sans">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8 md:p-10 text-center relative overflow-hidden">
-        {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[150%] h-64 bg-green-50/80 rounded-b-full blur-3xl opacity-50 pointer-events-none"></div>
-        
+
         <div className="relative z-10">
           <RecoIALogo />
-          
+
           <div className="mx-auto w-24 h-24 bg-green-50 rounded-full flex items-center justify-center mb-6 animate-in zoom-in duration-500 border border-green-100">
             <CheckCircle2 className="w-14 h-14 text-green-500" strokeWidth={2.5} />
           </div>
-          
+
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">Email verified successfully.</h1>
-          
+
           <p className="text-slate-600 text-sm leading-relaxed mb-8">
             Your account has been activated.
           </p>
@@ -39,12 +46,15 @@ export function VerifySuccess() {
           <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden mb-6">
             <div className="bg-blue-600 w-[70%] h-full rounded-full animate-pulse"></div>
           </div>
-          
+
           <p className="text-slate-400 text-sm font-medium mb-8">
             Redirecting to Sign In...
           </p>
 
-          <Button className="w-full bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 font-medium rounded-lg h-12 shadow-sm transition-colors">
+          <Button
+            onClick={() => navigate("/login", { replace: true })}
+            className="w-full bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 font-medium rounded-lg h-12 shadow-sm transition-colors"
+          >
             Go to Sign In
           </Button>
         </div>

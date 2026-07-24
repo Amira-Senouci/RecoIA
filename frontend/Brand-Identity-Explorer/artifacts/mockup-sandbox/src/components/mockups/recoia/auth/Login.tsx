@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Eye, EyeOff, Github } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
+import { ApiError } from '@/lib/api';
 
 function RecoIALogo() {
   return (
@@ -21,44 +23,76 @@ function RecoIALogo() {
 
 export function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  async function handleSubmit(event: React.FormEvent): Promise<void> {
+    event.preventDefault();
+    setError(null);
+    setSubmitting(true);
+    try {
+      const user = await login(email, password);
+      navigate(user.is_admin ? "/admin" : "/home", { replace: true });
+    } catch (cause) {
+      if (cause instanceof ApiError && cause.status === 403 && cause.message === "email_not_verified") {
+        navigate("/verify-email", { state: { email } });
+        return;
+      }
+      setError(cause instanceof ApiError ? cause.message : "Unable to sign in.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 font-sans">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8 md:p-10">
         <RecoIALogo />
-        
+
         <div className="text-center mb-8">
           <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Welcome back</h1>
           <p className="text-slate-500 mt-2 text-sm">Sign in to your account to continue</p>
         </div>
 
-        <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          {error && (
+            <p className="rounded-lg bg-red-50 border border-red-100 px-3 py-2 text-sm font-medium text-red-600">{error}</p>
+          )}
+
           <div className="space-y-2">
             <Label htmlFor="email" className="font-medium text-slate-900">Email address</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              placeholder="alex@example.com" 
-              defaultValue="invalid-email"
-              className="h-11 border-red-500 focus-visible:ring-red-500" 
+            <Input
+              id="email"
+              type="email"
+              placeholder="alex@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="h-11"
             />
-            <p className="text-sm text-red-500 font-medium">Please enter a valid email address</p>
           </div>
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label htmlFor="password" className="font-medium text-slate-900">Password</Label>
-              <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-700">Forgot password?</a>
+              <Link to="/forgot-password" className="text-sm font-medium text-blue-600 hover:text-blue-700">Forgot password?</Link>
             </div>
             <div className="relative">
-              <Input 
-                id="password" 
-                type={showPassword ? "text" : "password"} 
-                placeholder="••••••••" 
-                className="h-11 pr-10" 
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="h-11 pr-10"
               />
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -67,15 +101,8 @@ export function Login() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 pt-1 pb-2">
-            <Checkbox id="remember" className="border-slate-300 text-blue-600 rounded" />
-            <label htmlFor="remember" className="text-sm font-medium leading-none text-slate-600 cursor-pointer">
-              Remember me
-            </label>
-          </div>
-
-          <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg h-12 shadow-sm">
-            Sign In
+          <Button type="submit" disabled={submitting} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg h-12 shadow-sm">
+            {submitting ? "Signing in…" : "Sign In"}
           </Button>
         </form>
 
@@ -105,7 +132,7 @@ export function Login() {
         </div>
 
         <p className="text-center text-sm text-slate-600 mt-8">
-          Don't have an account? <a href="#" className="font-semibold text-slate-900 hover:text-blue-600">Create one</a>
+          Don't have an account? <Link to="/register" className="font-semibold text-slate-900 hover:text-blue-600">Create one</Link>
         </p>
       </div>
     </div>
